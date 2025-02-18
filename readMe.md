@@ -4,12 +4,12 @@ This is a Flask-based web application that provides a personal assistant powered
 
 ## Features
 
-- AI-Powered Chat:** Utilizes the Google Gemini AI model for intelligent and conversational responses.
-- Responsive Design:** Adapts to different screen sizes for seamless use on desktops, tablets, and mobile devices.
-- User-Friendly Interface:** Clean and intuitive design for easy interaction.
-- .env Configuration:** API key is securely managed using environment variables.
+- AI-Powered Chat: Utilizes the Google Gemini AI model for intelligent and conversational responses.
+- Responsive Design: Adapts to different screen sizes for seamless use on desktops, tablets, and mobile devices.
+- User-Friendly Interface: Clean and intuitive design for easy interaction.
+- .env Configuration: API key is securely managed using environment variables.
 
-##Setup
+## Setup
 
 - Create Virtual Environment for flask (VENV)
 - pip install Flask
@@ -17,5 +17,5 @@ This is a Flask-based web application that provides a personal assistant powered
 - pip install pymongo
 - Google Generative AI Python library: pip install google-generativeai
 
-*Run the program
+# Run the program
 - python app.py
