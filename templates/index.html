@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">  <!-- Added the language attribute -->
+<head>
+    <title>AI Chatbot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="assistant-container">
+        <header class="assistant-header">
+            <img src="https://res.cloudinary.com/dvblizd3z/image/upload/v1738245630/Meh/p8r2nsvzgao9jkhhwoxm.jpg"
+                 alt="AI Assistant Icon" class="assistant-icon">
+            <h1>AI Chatbot</h1>
+        </header>
+
+        <main class="assistant-main">
+            <div id="chat-box" aria-live="polite" aria-atomic="true">
+            </div>
+        </main>
+
+        <footer class="assistant-footer">
+            <div class="input-area">
+                <label for="user-input" class="visually-hidden">Type your message:</label>
+                <input type="text" id="user-input" placeholder="Ask me anything...">
+                <button onclick="sendMessage()">
+                  <i class="fas fa-paper-plane" aria-hidden="true"></i> Send
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
