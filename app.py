@@ -32,12 +32,32 @@ def configure_gemini():
     if not GOOGLE_API_KEY:
         raise ValueError("The Google Api is not set or found")
     genai.configure(api_key=GOOGLE_API_KEY)
-    model = genai.GenerativeModel('gemini-pro')
-    return model
+
+    supported_models = [
+        model.name
+        for model in genai.list_models()
+        if "generateContent" in model.supported_generation_methods
+    ]
+    preferred_models = [
+        "models/gemini-flash-lite-latest",
+        "models/gemini-flash-latest",
+        "models/gemini-3.8-flash",
+        "models/gemini-2.5-flash",
+    ]
+    model_name = next(
+        (name for name in preferred_models if name in supported_models),
+        supported_models[0] if supported_models else None,
+    )
+
+    if model_name is None:
+        raise ValueError("No Gemini model supporting generateContent is available")
+
+    print(f"Using Gemini model: {model_name}")
+    return genai.GenerativeModel(model_name)
 
 try:
     gemini_model = configure_gemini()
-except ValueError as e:
+except Exception as e:
     print(f"Configuration Error: {e}")
     gemini_model = None
 
@@ -57,13 +77,17 @@ def get_response():
         response = gemini_model.generate_content(user_message)
         bot_response = response.text
 
-        # Save the chat message to MongoDB
+        # MongoDB persistence is optional and must not block a chatbot response.
         message_data = {
             "user_message": user_message,
             "bot_response": bot_response
         }
-        collection = get_collection()
-        collection.insert_one(message_data)
+        if MONGO_URI:
+            try:
+                collection = get_collection()
+                collection.insert_one(message_data)
+            except Exception as mongo_error:
+                print(f"MongoDB persistence error: {mongo_error}")
 
         print(f"Gemini Response: {bot_response}")
         return jsonify({"response": bot_response})
@@ -76,8 +100,12 @@ def get_response():
             "user_message": user_message,
             "bot_response": "I'm sorry, there was an error generating a response."
         }
-        collection = get_collection()
-        collection.insert_one(message_data)
+        if MONGO_URI:
+            try:
+                collection = get_collection()
+                collection.insert_one(message_data)
+            except Exception as mongo_error:
+                print(f"MongoDB persistence error: {mongo_error}")
 
         return jsonify({"response": "I'm sorry, I encountered an error."})
 

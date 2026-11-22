@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "runsight": "^1.3.2"
+  },
+  "allowScripts": {
+    "runsight@1.3.2": true
+  }
+}
